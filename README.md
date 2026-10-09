@@ -32,13 +32,19 @@ reports any change against a fixed baseline.
 
 `daily/2026-10-09` is an earlier EN-only run; `daily/2026-10-09_175543` is the 17-locale run used as the baseline.
 
-## Running
+## Running in the cloud / on Linux
 
 ```bash
-pip install -r requirements.txt
-playwright install chromium
-python -u scripts/run_daily_compare.py
+./setup.sh                                   # pip packages + headless Chromium
+python3 -u scripts/cloud_run.py              # daily run, compared to baselines/cloud_baseline
+python3 -u scripts/cloud_run.py --set-baseline   # run once and make it the cloud baseline
 ```
 
-> Note: the scripts still contain the local Windows paths (`c:\Users\rpatel\...`) they were written with.
-> They need configurable paths and a headless browser before they can run in the cloud.
+`cloud_run.py` uses repo-relative paths, forces headless Chromium and writes `daily/<UTC date_time>/`.
+It compares against `baselines/cloud_baseline/`, kept separate from the local baseline
+(`baselines/daily_baseline/`) because the site varies some content (e.g. phone numbers) by visitor location.
+
+## Running locally (Windows)
+
+`scripts/run_daily_compare.py` is the local runner. It uses the local paths it was written with
+(`c:\Users\rpatel\...`) and a visible browser, and compares against `baselines/daily_baseline/`.
