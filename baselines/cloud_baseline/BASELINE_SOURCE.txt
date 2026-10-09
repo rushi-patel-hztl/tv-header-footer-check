@@ -1,0 +1,4 @@
+Cloud baseline for the daily header/footer check
+Copied from: daily/2026-10-09_133040
+Set at: 2026-10-09 13:46 UTC
+Do not edit these files - every cloud run is compared against them.

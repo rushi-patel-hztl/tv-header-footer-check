@@ -1,0 +1,316 @@
+=== Cloud run started 2026-10-09 13:30:40 UTC ===
+Run folder: /home/user/tv-header-footer-check/daily/2026-10-09_133040
+Pacing: 5-10s between page loads; 429 back-off [60, 120, 240]s
+
+##### HEADER CHECK #####
+Loaded 17 unique pairs
+
+[1/17] Locale=en
+  Source: https://www.teamviewer.com/en/
+  Source links=85 texts=142
+  Target: https://www.teamviewer.com/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=90 texts=146
+  Overall=78.13% StructLinks=79.57% ExactLinks=75.0% Texts=76.69% Renamed=3 Missing=8 Additional=11 BlankMismatch=0
+
+[2/17] Locale=de
+  Source: https://www.teamviewer.com/de/
+  Source links=89 texts=145
+  Target: https://www.teamviewer.com/de/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=87 texts=141
+  Overall=88.41% StructLinks=89.89% ExactLinks=84.78% Texts=86.93% Renamed=3 Missing=6 Additional=3 BlankMismatch=0
+
+[3/17] Locale=fr
+  Source: https://www.teamviewer.com/fr/
+  Source links=89 texts=143
+  Target: https://www.teamviewer.com/fr/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=88 texts=140
+  Overall=81.25% StructLinks=88.89% ExactLinks=83.87% Texts=73.62% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[4/17] Locale=es
+  Source: https://www.teamviewer.com/es/
+  Source links=89 texts=143
+  Target: https://www.teamviewer.com/es/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=88 texts=141
+  Overall=91.04% StructLinks=88.89% ExactLinks=83.87% Texts=93.2% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[5/17] Locale=ja
+  Source: https://www.teamviewer.com/ja/
+  Source links=89 texts=147
+  Target: https://www.teamviewer.com/ja/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=89 texts=147
+  Overall=97.51% StructLinks=97.7% ExactLinks=96.59% Texts=97.32% Renamed=1 Missing=1 Additional=1 BlankMismatch=0
+
+[6/17] Locale=pt
+  Source: https://www.teamviewer.com/pt/
+  Source links=89 texts=145
+  Target: https://www.teamviewer.com/pt/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=87 texts=141
+  Overall=91.07% StructLinks=88.89% ExactLinks=83.87% Texts=93.24% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[7/17] Locale=cn
+  Source: https://www.teamviewer.com/cn/
+  Source links=89 texts=148
+  Target: https://www.teamviewer.com/cn/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=87 texts=145
+  Overall=91.33% StructLinks=89.89% ExactLinks=84.78% Texts=92.76% Renamed=3 Missing=6 Additional=3 BlankMismatch=0
+
+[8/17] Locale=hu
+  Source: https://www.teamviewer.com/hu/
+  Source links=91 texts=147
+  Target: https://www.teamviewer.com/hu/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=90 texts=145
+  Overall=91.25% StructLinks=89.13% ExactLinks=84.21% Texts=93.38% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[9/17] Locale=it
+  Source: https://www.teamviewer.com/it/
+  Source links=89 texts=143
+  Target: https://www.teamviewer.com/it/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=88 texts=141
+  Overall=91.7% StructLinks=88.89% ExactLinks=83.87% Texts=94.52% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[10/17] Locale=ko
+  Source: https://www.teamviewer.com/ko/
+  Source links=89 texts=147
+  Target: https://www.teamviewer.com/ko/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=88 texts=145
+  Overall=91.13% StructLinks=88.89% ExactLinks=83.87% Texts=93.38% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[11/17] Locale=nl
+  Source: https://www.teamviewer.com/nl/
+  Source links=90 texts=147
+  Target: https://www.teamviewer.com/nl/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=92 texts=147
+  Overall=87.48% StructLinks=88.89% ExactLinks=83.87% Texts=86.08% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[12/17] Locale=pl
+  Source: https://www.teamviewer.com/pl/
+  Source links=91 texts=147
+  Target: https://www.teamviewer.com/pl/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=96 texts=151
+  Overall=90.08% StructLinks=89.13% ExactLinks=84.21% Texts=91.03% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[13/17] Locale=th
+  Source: https://www.teamviewer.com/th/
+  Source links=91 texts=148
+  Target: https://www.teamviewer.com/th/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=89 texts=145
+  Overall=91.59% StructLinks=89.13% ExactLinks=84.21% Texts=94.04% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[14/17] Locale=ru
+  Source: https://www.teamviewer.com/ru/
+  Source links=91 texts=146
+  Target: https://www.teamviewer.com/ru/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=89 texts=143
+  Overall=91.94% StructLinks=91.21% ExactLinks=86.17% Texts=92.67% Renamed=3 Missing=5 Additional=3 BlankMismatch=0
+
+[15/17] Locale=cs
+  Source: https://www.teamviewer.com/cs/
+  Source links=91 texts=150
+  Target: https://www.teamviewer.com/cs/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=89 texts=146
+  Overall=90.67% StructLinks=89.13% ExactLinks=84.21% Texts=92.21% Renamed=3 Missing=6 Additional=4 BlankMismatch=0
+
+[16/17] Locale=tw
+  Source: https://www.teamviewer.com/tw/
+  Source links=91 texts=151
+  Target: https://www.teamviewer.com/tw/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=89 texts=148
+  Overall=91.51% StructLinks=90.11% ExactLinks=85.11% Texts=92.9% Renamed=3 Missing=6 Additional=3 BlankMismatch=0
+
+[17/17] Locale=tr
+  Source: https://www.teamviewer.com/tr/
+  Source links=91 texts=148
+  Target: https://www.teamviewer.com/tr/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=89 texts=146
+  Overall=88.09% StructLinks=90.11% ExactLinks=85.11% Texts=86.08% Renamed=3 Missing=6 Additional=3 BlankMismatch=1
+
+Report saved to: /home/user/tv-header-footer-check/daily/2026-10-09_133040/HeaderCheck_Report.xlsx
+HTML report saved to: /home/user/tv-header-footer-check/daily/2026-10-09_133040/HeaderCheck_Report.html
+Locales: 17
+Matching links: 1342
+Renamed links: 49
+Missing links: 98
+Additional links: 67
+target=_blank mismatches: 1
+HTML report saved to: /home/user/tv-header-footer-check/daily/2026-10-09_133040/HeaderCheck_Report.html
+
+========================================================================================================================
+Locale    Overall%   Struct%    Exact%    Text%  Rename  Miss   Add BlankMM   Status
+========================================================================================================================
+en           78.13     79.57     75.00    76.69       3     8    11       0     FAIL
+de           88.41     89.89     84.78    86.93       3     6     3       0     WARN
+fr           81.25     88.89     83.87    73.62       3     6     4       0     WARN
+es           91.04     88.89     83.87    93.20       3     6     4       0     WARN
+ja           97.51     97.70     96.59    97.32       1     1     1       0     WARN
+pt           91.07     88.89     83.87    93.24       3     6     4       0     WARN
+cn           91.33     89.89     84.78    92.76       3     6     3       0     WARN
+hu           91.25     89.13     84.21    93.38       3     6     4       0     WARN
+it           91.70     88.89     83.87    94.52       3     6     4       0     WARN
+ko           91.13     88.89     83.87    93.38       3     6     4       0     WARN
+nl           87.48     88.89     83.87    86.08       3     6     4       0     WARN
+pl           90.08     89.13     84.21    91.03       3     6     4       0     WARN
+th           91.59     89.13     84.21    94.04       3     6     4       0     WARN
+ru           91.94     91.21     86.17    92.67       3     5     3       0     WARN
+cs           90.67     89.13     84.21    92.21       3     6     4       0     WARN
+tw           91.51     90.11     85.11    92.90       3     6     3       0     WARN
+tr           88.09     90.11     85.11    86.08       3     6     3       1     WARN
+========================================================================================================================
+
+##### FOOTER CHECK #####
+Loaded 17 unique pairs (FOOTER check v2 — false positives reduced)
+
+[1/17] Locale=en
+  Source: https://www.teamviewer.com/en/
+  Source links=51 texts=53 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=51 texts=53 skippedRegion=2 el=DIV#footer
+  Overall=95.26% StructLinks=94.23% ExactLinks=92.45% Texts=96.3% Renamed=1 Missing=1 Additional=2 BlankMismatch=0
+
+[2/17] Locale=de
+  Source: https://www.teamviewer.com/de/
+  Source links=50 texts=52 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/de/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=53 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=92.78% StructLinks=96.08% ExactLinks=92.45% Texts=89.47% Renamed=1 Missing=0 Additional=2 BlankMismatch=0
+
+[3/17] Locale=fr
+  Source: https://www.teamviewer.com/fr/
+  Source links=47 texts=49 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/fr/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=53 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=77.95% StructLinks=86.54% ExactLinks=83.33% Texts=69.35% Renamed=1 Missing=1 Additional=6 BlankMismatch=4
+
+[4/17] Locale=es
+  Source: https://www.teamviewer.com/es/
+  Source links=48 texts=50 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/es/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=55 texts=59 skippedRegion=0 el=DIV#footer
+  Overall=82.24% StructLinks=88.68% ExactLinks=85.45% Texts=75.81% Renamed=1 Missing=0 Additional=6 BlankMismatch=0
+
+[5/17] Locale=ja
+  Source: https://www.teamviewer.com/ja/
+  Source links=48 texts=48 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/ja/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=48 texts=48 skippedRegion=59 el=FOOTER#
+  Overall=100.0% StructLinks=100.0% ExactLinks=97.92% Texts=100.0% Renamed=1 Missing=0 Additional=0 BlankMismatch=0
+
+[6/17] Locale=pt
+  Source: https://www.teamviewer.com/pt/
+  Source links=46 texts=48 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/pt/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=52 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=79.8% StructLinks=86.27% ExactLinks=83.02% Texts=73.33% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[7/17] Locale=cn
+  Source: https://www.teamviewer.com/cn/
+  Source links=47 texts=49 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/cn/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=52 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=77.95% StructLinks=86.54% ExactLinks=84.91% Texts=69.35% Renamed=0 Missing=2 Additional=5 BlankMismatch=0
+
+[8/17] Locale=hu
+  Source: https://www.teamviewer.com/hu/
+  Source links=44 texts=46 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/hu/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=50 texts=53 skippedRegion=0 el=DIV#footer
+  Overall=78.2% StructLinks=85.71% ExactLinks=82.35% Texts=70.69% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[9/17] Locale=it
+  Source: https://www.teamviewer.com/it/
+  Source links=46 texts=48 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/it/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=52 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=78.38% StructLinks=86.27% ExactLinks=83.02% Texts=70.49% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[10/17] Locale=ko
+  Source: https://www.teamviewer.com/ko/
+  Source links=49 texts=49 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/ko/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=52 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=77.58% StructLinks=83.02% ExactLinks=80.0% Texts=72.13% Renamed=1 Missing=3 Additional=6 BlankMismatch=0
+
+[11/17] Locale=nl
+  Source: https://www.teamviewer.com/nl/
+  Source links=46 texts=48 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/nl/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=52 texts=56 skippedRegion=0 el=DIV#footer
+  Overall=75.68% StructLinks=86.27% ExactLinks=83.02% Texts=65.08% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[12/17] Locale=pl
+  Source: https://www.teamviewer.com/pl/
+  Source links=44 texts=45 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/pl/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=50 texts=53 skippedRegion=0 el=DIV#footer
+  Overall=74.52% StructLinks=85.71% ExactLinks=82.35% Texts=63.33% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[13/17] Locale=th
+  Source: https://www.teamviewer.com/th/
+  Source links=44 texts=46 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/th/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=50 texts=54 skippedRegion=0 el=DIV#footer
+  Overall=76.19% StructLinks=85.71% ExactLinks=82.35% Texts=66.67% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[14/17] Locale=ru
+  Source: https://www.teamviewer.com/ru/
+  Source links=44 texts=46 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/ru/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=50 texts=53 skippedRegion=0 el=DIV#footer
+  Overall=79.7% StructLinks=85.71% ExactLinks=82.35% Texts=73.68% Renamed=1 Missing=1 Additional=6 BlankMismatch=0
+
+[15/17] Locale=cs
+  Source: https://www.teamviewer.com/cs/
+  Source links=44 texts=46 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/cs/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=51 texts=54 skippedRegion=0 el=DIV#footer
+  Overall=73.97% StructLinks=84.0% ExactLinks=80.77% Texts=63.93% Renamed=1 Missing=1 Additional=7 BlankMismatch=0
+
+[16/17] Locale=tw
+  Source: https://www.teamviewer.com/tw/
+  Source links=44 texts=46 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/tw/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=48 texts=52 skippedRegion=0 el=DIV#footer
+  Overall=79.16% StructLinks=89.36% ExactLinks=85.71% Texts=68.97% Renamed=1 Missing=1 Additional=4 BlankMismatch=0
+
+[17/17] Locale=tr
+  Source: https://www.teamviewer.com/tr/
+  Source links=44 texts=46 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/tr/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=49 texts=53 skippedRegion=0 el=DIV#footer
+  Overall=77.65% StructLinks=87.5% ExactLinks=84.0% Texts=67.8% Renamed=1 Missing=1 Additional=5 BlankMismatch=0
+
+Report saved to: /home/user/tv-header-footer-check/daily/2026-10-09_133040/FooterCheck_Report.xlsx
+HTML report saved to: /home/user/tv-header-footer-check/daily/2026-10-09_133040/FooterCheck_Report.html
+Locales: 17
+Matching links: 752
+Renamed links: 16
+Missing links: 17
+Additional links: 85
+target=_blank mismatches: 4
+HTML report saved to: /home/user/tv-header-footer-check/daily/2026-10-09_133040/FooterCheck_Report.html
+
+========================================================================================================================
+Locale    Overall%   Struct%    Exact%    Text%  Rename  Miss   Add BlankMM   Status
+========================================================================================================================
+en           95.26     94.23     92.45    96.30       1     1     2       0     WARN
+de           92.78     96.08     92.45    89.47       1     0     2       0     WARN
+fr           77.95     86.54     83.33    69.35       1     1     6       4     FAIL
+es           82.24     88.68     85.45    75.81       1     0     6       0     WARN
+ja          100.00    100.00     97.92   100.00       1     0     0       0     PASS
+pt           79.80     86.27     83.02    73.33       1     1     6       0     FAIL
+cn           77.95     86.54     84.91    69.35       0     2     5       0     FAIL
+hu           78.20     85.71     82.35    70.69       1     1     6       0     FAIL
+it           78.38     86.27     83.02    70.49       1     1     6       0     FAIL
+ko           77.58     83.02     80.00    72.13       1     3     6       0     FAIL
+nl           75.68     86.27     83.02    65.08       1     1     6       0     FAIL
+pl           74.52     85.71     82.35    63.33       1     1     6       0     FAIL
+th           76.19     85.71     82.35    66.67       1     1     6       0     FAIL
+ru           79.70     85.71     82.35    73.68       1     1     6       0     FAIL
+cs           73.97     84.00     80.77    63.93       1     1     7       0     FAIL
+tw           79.16     89.36     85.71    68.97       1     1     4       0     FAIL
+tr           77.65     87.50     84.00    67.80       1     1     5       0     FAIL
+========================================================================================================================
+
+##### COMPARE TO CLOUD BASELINE #####
+Cloud baseline set from daily/2026-10-09_133040 -> /home/user/tv-header-footer-check/baselines/cloud_baseline
+
+=== Cloud run finished 2026-10-09 13:46:52 UTC (failures=0) ===
