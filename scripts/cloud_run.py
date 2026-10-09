@@ -38,6 +38,7 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 import compare_to_baseline  # noqa: E402
 import footer_compare as fc  # noqa: E402
 import header_compare as hc  # noqa: E402
+import pacing  # noqa: E402
 
 DEFAULT_INPUT = REPO_ROOT / "input" / "DailyCheck.xlsx"
 DEFAULT_OUT_ROOT = REPO_ROOT / "daily"
@@ -126,6 +127,8 @@ def main() -> int:
     hc.OUTPUT_HTML = str(run_dir / "HeaderCheck_Report.html")
     fc.OUTPUT_XLSX = str(run_dir / "FooterCheck_Report.xlsx")
     fc.OUTPUT_HTML = str(run_dir / "FooterCheck_Report.html")
+    # Space out page loads and back off on HTTP 429
+    pacing.install(hc, fc)
 
     failures = 0
     for name, run in (("HEADER", hc.main), ("FOOTER", fc.main)):

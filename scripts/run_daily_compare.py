@@ -24,6 +24,7 @@ from pathlib import Path
 import compare_to_baseline
 import footer_compare as fc
 import header_compare as hc
+import pacing
 
 DAILY_ROOT = Path(r"c:\Users\rpatel\Desktop\Teamviewer\daily")
 # Source/Target pairs for the nightly run (same layout as HeaderCheck.xlsx)
@@ -46,6 +47,8 @@ def main() -> int:
     hc.OUTPUT_HTML = str(run_dir / "HeaderCheck_Report.html")
     fc.OUTPUT_XLSX = str(run_dir / "FooterCheck_Report.xlsx")
     fc.OUTPUT_HTML = str(run_dir / "FooterCheck_Report.html")
+    # Space out page loads and back off on HTTP 429
+    pacing.install(hc, fc)
 
     failures = 0
     for name, run in (("HEADER", hc.main), ("FOOTER", fc.main)):
