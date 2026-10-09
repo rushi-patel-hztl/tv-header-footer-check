@@ -1,0 +1,55 @@
+=== Daily run started 2026-10-09 17:01:27 ===
+
+##### HEADER CHECK #####
+Loaded 1 unique pairs
+
+[1/1] Locale=en
+  Source: https://www.teamviewer.com/en/
+  Source links=85 texts=142
+  Target: https://www.teamviewer.com/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=91 texts=146
+  Overall=78.67% StructLinks=80.65% ExactLinks=76.04% Texts=76.69% Renamed=3 Missing=7 Additional=11 BlankMismatch=0
+
+Report saved to: c:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09\HeaderCheck_Report.xlsx
+HTML report saved to: c:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09\HeaderCheck_Report.html
+Locales: 1
+Matching links: 73
+Renamed links: 3
+Missing links: 7
+Additional links: 11
+target=_blank mismatches: 0
+HTML report saved to: c:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09\HeaderCheck_Report.html
+
+========================================================================================================================
+Locale    Overall%   Struct%    Exact%    Text%  Rename  Miss   Add BlankMM   Status
+========================================================================================================================
+en           78.67     80.65     76.04    76.69       3     7    11       0     FAIL
+========================================================================================================================
+
+##### FOOTER CHECK #####
+Loaded 1 unique pairs (FOOTER check v2 — false positives reduced)
+
+[1/1] Locale=en
+  Source: https://www.teamviewer.com/en/
+  Source links=51 texts=53 skippedRegion=59 el=FOOTER#
+  Target: https://www.teamviewer.com/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/
+  Target links=51 texts=53 skippedRegion=2 el=DIV#footer
+  Overall=95.26% StructLinks=94.23% ExactLinks=92.45% Texts=96.3% Renamed=1 Missing=1 Additional=2 BlankMismatch=0
+
+Report saved to: c:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09\FooterCheck_Report.xlsx
+HTML report saved to: c:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09\FooterCheck_Report.html
+Locales: 1
+Matching links: 49
+Renamed links: 1
+Missing links: 1
+Additional links: 2
+target=_blank mismatches: 0
+HTML report saved to: c:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09\FooterCheck_Report.html
+
+========================================================================================================================
+Locale    Overall%   Struct%    Exact%    Text%  Rename  Miss   Add BlankMM   Status
+========================================================================================================================
+en           95.26     94.23     92.45    96.30       1     1     2       0     WARN
+========================================================================================================================
+
+=== Daily run finished 2026-10-09 17:02:13 (failures=0) ===

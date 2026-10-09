@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Footer Check Report — TeamViewer</title>
+<style>
+  :root {
+    --bg: #0f1419;
+    --panel: #171d25;
+    --panel-2: #1e2630;
+    --border: #2c3642;
+    --text: #e7edf5;
+    --muted: #93a0b0;
+    --pass: #22c55e;
+    --warn: #f59e0b;
+    --fail: #ef4444;
+    --add: #38bdf8;
+    --error: #a855f7;
+    --link: #7dd3fc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(1200px 600px at 10% -10%, #1a2740 0%, transparent 50%),
+                radial-gradient(900px 500px at 100% 0%, #1b2a22 0%, transparent 45%),
+                var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 28px 20px 60px; }
+  header.hero {
+    display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 24px;
+  }
+  header.hero h1 { margin: 0 0 6px; font-size: 1.8rem; letter-spacing: -0.02em; }
+  header.hero p { margin: 0; color: var(--muted); }
+  .kpis { display: flex; gap: 10px; flex-wrap: wrap; }
+  .kpi {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; min-width: 110px;
+  }
+  .kpi strong { display: block; font-size: 1.35rem; }
+  .kpi span { color: var(--muted); font-size: 0.8rem; }
+  .filters {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    margin: 0 0 18px; padding: 12px; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  .filters input, .filters select {
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px; font: inherit;
+  }
+  .filters input { flex: 1; min-width: 220px; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 0.85rem; }
+  .legend i {
+    display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px;
+  }
+  .panel {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px; margin-bottom: 22px; overflow: auto;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--panel); }
+  tr.fail td:first-child, tr.warn td:first-child, tr.pass td:first-child, tr.error td:first-child {
+    border-left: 3px solid transparent;
+  }
+  tr.fail td:first-child { border-left-color: var(--fail); }
+  tr.warn td:first-child { border-left-color: var(--warn); }
+  tr.pass td:first-child { border-left-color: var(--pass); }
+  tr.error td:first-child { border-left-color: var(--error); }
+  .num { text-align: center; font-variant-numeric: tabular-nums; }
+  .num.ok { color: var(--pass); }
+  .num.warn { color: var(--warn); }
+  .num.fail { color: var(--fail); }
+  .num.add { color: var(--add); }
+  .badge {
+    display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 0.75rem;
+    font-weight: 700; letter-spacing: 0.04em;
+  }
+  .badge.pass { background: rgba(34,197,94,.15); color: var(--pass); }
+  .badge.warn { background: rgba(245,158,11,.15); color: var(--warn); }
+  .badge.fail { background: rgba(239,68,68,.15); color: var(--fail); }
+  .badge.error { background: rgba(168,85,247,.15); color: var(--error); }
+  .bar {
+    position: relative; height: 18px; background: #243041; border-radius: 999px;
+    overflow: hidden; min-width: 90px;
+  }
+  .bar span { display: block; height: 100%; border-radius: 999px; }
+  .bar em {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-style: normal; font-size: 0.72rem; font-weight: 700; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.55);
+  }
+  .locale-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 18px; margin-bottom: 18px;
+  }
+  .locale-head {
+    display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 14px;
+  }
+  .locale-head h2 { margin: 0 0 6px; font-size: 1.25rem; }
+  .locale-code {
+    display: inline-block; background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 2px 8px; margin-right: 6px; text-transform: uppercase;
+  }
+  .urls { display: flex; gap: 8px; align-items: center; color: var(--muted); flex-wrap: wrap; }
+  .locale-stats { display: grid; gap: 8px; min-width: 260px; }
+  .mini-metric label { display: block; color: var(--muted); font-size: 0.75rem; margin-bottom: 3px; }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px; margin-bottom: 14px;
+  }
+  .stat {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .stat strong { display: block; font-size: 1.3rem; }
+  .stat span { color: var(--muted); font-size: 0.78rem; }
+  .stat.ok strong { color: var(--pass); }
+  .stat.warn strong { color: var(--warn); }
+  .stat.fail strong { color: var(--fail); }
+  .stat.add strong { color: var(--add); }
+  details.block {
+    border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px;
+    background: var(--panel-2); overflow: hidden;
+  }
+  details.block summary {
+    cursor: pointer; padding: 12px 14px; font-weight: 650; list-style: none;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  details.block summary::-webkit-details-marker { display: none; }
+  details.block summary::before { content: "▸"; color: var(--muted); }
+  details[open].block summary::before { content: "▾"; }
+  details.block summary em {
+    font-style: normal; background: #0f1419; border-radius: 999px;
+    padding: 1px 8px; font-size: 0.8rem; color: var(--muted);
+  }
+  details.fail-block { border-left: 3px solid var(--fail); }
+  details.add-block { border-left: 3px solid var(--add); }
+  details.warn-block { border-left: 3px solid var(--warn); }
+  details.ok-block { border-left: 3px solid var(--pass); }
+  details.text-block { border-left: 3px solid #64748b; }
+  .table-wrap { overflow: auto; padding: 0 8px 10px; max-height: 420px; }
+  .empty { color: var(--muted); padding: 8px 14px 14px; margin: 0; }
+  .text-cols {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px; padding: 0 14px 14px;
+  }
+  .text-cols h3 { margin: 0 0 8px; font-size: 0.95rem; }
+  .text-cols h3.ok { color: var(--pass); }
+  .text-cols h3.fail { color: var(--fail); }
+  .text-cols h3.add { color: var(--add); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    border-radius: 999px; padding: 4px 10px; font-size: 0.78rem;
+    border: 1px solid var(--border); background: #0f1419;
+  }
+  .chip.ok { border-color: rgba(34,197,94,.35); color: #86efac; }
+  .chip.fail { border-color: rgba(239,68,68,.35); color: #fca5a5; }
+  .chip.add { border-color: rgba(56,189,248,.35); color: #7dd3fc; }
+  .footnote { color: var(--muted); font-size: 0.85rem; margin-top: 18px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <h1>Footer Check Report</h1>
+        <p>Source (www.teamviewer.com) vs Target (prod-sitecore.teamviewer.com) — visible text only; ignores aria-labels &amp; .utils-visually-hidden; ru-cis≡ru; includes target=_blank checks — generated 2026-10-09 17:02:13</p>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><strong>1</strong><span>Locales</span></div>
+        <div class="kpi"><strong>95.3%</strong><span>Avg Overall</span></div>
+        <div class="kpi"><strong>94.2%</strong><span>Avg Structural Links</span></div>
+        <div class="kpi"><strong style="color:var(--pass)">0</strong><span>Pass</span></div>
+        <div class="kpi"><strong style="color:var(--warn)">1</strong><span>Warn</span></div>
+        <div class="kpi"><strong style="color:var(--fail)">0</strong><span>Fail</span></div>
+        <div class="kpi"><strong style="color:var(--error)">0</strong><span>Error</span></div>
+      </div>
+    </header>
+
+    <div class="filters">
+      <input id="search" type="search" placeholder="Filter by locale, path, or text..." />
+      <select id="statusFilter">
+        <option value="all">All statuses</option>
+        <option value="pass">PASS</option>
+        <option value="warn">WARN</option>
+        <option value="fail">FAIL</option>
+        <option value="error">ERROR</option>
+      </select>
+      <div class="legend">
+        <span><i style="background:var(--pass)"></i>Matched</span>
+        <span><i style="background:var(--warn)"></i>Renamed</span>
+        <span><i style="background:var(--fail)"></i>Missing</span>
+        <span><i style="background:var(--add)"></i>Additional</span>
+      </div>
+    </div>
+
+    <section class="panel">
+      <table id="summaryTable">
+        <thead>
+          <tr>
+            <th>Locale</th>
+            <th>Overall</th>
+            <th>Structural Links</th>
+            <th>Exact Paths</th>
+            <th>Texts</th>
+            <th>Matched</th>
+            <th>Renamed</th>
+            <th>Missing</th>
+            <th>Additional</th>
+            <th>Blank≠</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr class="warn">
+              <td><a href="#locale-en">en</a></td>
+              <td><div class="bar"><span style="width:95.3%;background:var(--pass)"></span><em>95.3%</em></div></td>
+              <td><div class="bar"><span style="width:94.2%;background:var(--warn)"></span><em>94.2%</em></div></td>
+              <td><div class="bar"><span style="width:92.5%;background:var(--warn)"></span><em>92.5%</em></div></td>
+              <td><div class="bar"><span style="width:96.3%;background:var(--pass)"></span><em>96.3%</em></div></td>
+              <td class="num ok">49</td>
+              <td class="num warn">1</td>
+              <td class="num fail">1</td>
+              <td class="num add">2</td>
+              <td class="num fail">0</td>
+              <td><span class="badge warn">WARN</span></td>
+            </tr>
+            
+        </tbody>
+      </table>
+    </section>
+
+    <div id="localeSections">
+      
+            <section class="locale-card" id="locale-en">
+              <header class="locale-head">
+                <div>
+                  <h2><span class="locale-code">en</span> Footer Comparison</h2>
+                  <p class="urls">
+                    <a href="https://www.teamviewer.com/en/" target="_blank" rel="noopener">Source</a>
+                    <span>→</span>
+                    <a href="https://www.teamviewer.com/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/" target="_blank" rel="noopener">Target</a>
+                  </p>
+                </div>
+                <div class="locale-stats">
+                  <span class="badge warn">WARN</span>
+                  <div class="mini-metric"><label>Overall</label><div class="bar"><span style="width:95.3%;background:var(--pass)"></span><em>95.3%</em></div></div>
+                  <div class="mini-metric"><label>Structural Links</label><div class="bar"><span style="width:94.2%;background:var(--warn)"></span><em>94.2%</em></div></div>
+                  <div class="mini-metric"><label>Exact Paths</label><div class="bar"><span style="width:92.5%;background:var(--warn)"></span><em>92.5%</em></div></div>
+                  <div class="mini-metric"><label>Texts</label><div class="bar"><span style="width:96.3%;background:var(--pass)"></span><em>96.3%</em></div></div>
+                </div>
+              </header>
+
+              <div class="stat-grid">
+                <div class="stat ok"><strong>49</strong><span>Exact matching links</span></div>
+                <div class="stat warn"><strong>1</strong><span>Renamed slug links</span></div>
+                <div class="stat fail"><strong>1</strong><span>Missing in target</span></div>
+                <div class="stat add"><strong>2</strong><span>Additional in target</span></div>
+                <div class="stat fail"><strong>0</strong><span>target=_blank mismatches</span></div>
+                <div class="stat ok"><strong>52</strong><span>Matching texts</span></div>
+                <div class="stat fail"><strong>1</strong><span>Missing texts</span></div>
+                <div class="stat add"><strong>1</strong><span>Additional texts</span></div>
+              </div>
+
+              <details open class="block fail-block">
+                <summary>target=_blank Mismatches <em>0</em></summary>
+                <p class="empty">No target=_blank mismatches on paired links.</p>
+              </details>
+
+              <details open class="block fail-block">
+                <summary>Missing in Target <em>1</em></summary>
+                <div class="table-wrap"><table><thead><tr><th>Exact Path</th><th>Structural Key</th><th>Link Text</th><th>Source Href</th></tr></thead><tbody><tr><td>/en/global/company/about-teamviewer</td><td>/global/company/about-teamviewer</td><td>About TeamViewer</td><td>https://www.teamviewer.com/en/global/company/about-teamviewer/</td></tr></tbody></table></div>
+              </details>
+
+              <details open class="block add-block">
+                <summary>Additional in Target <em>2</em></summary>
+                <div class="table-wrap"><table><thead><tr><th>Exact Path</th><th>Structural Key</th><th>Link Text</th><th>Target Href</th></tr></thead><tbody><tr><td>/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action</td><td>/global/company/newsroom/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action</td><td>Cookie Settings</td><td>https://www.teamviewer.com/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action/#</td></tr><tr><td>/en/partner/existing-partner-login</td><td>/partner/existing-partner-login</td><td>Existing Partner Login</td><td>https://www.teamviewer.com/en/partner/existing-partner-login/</td></tr></tbody></table></div>
+              </details>
+
+              <details class="block warn-block">
+                <summary>Renamed Slug Links <em>1</em></summary>
+                <div class="table-wrap"><table><thead><tr><th>Source Path</th><th>Target Path</th><th>Source Text</th><th>Target Text</th></tr></thead><tbody><tr><td>/</td><td>/en</td><td></td><td></td></tr></tbody></table></div>
+              </details>
+
+              <details class="block ok-block">
+                <summary>Exact Matching Links <em>49</em></summary>
+                <div class="table-wrap"><table><thead><tr><th>Path</th><th>Source Text</th><th>Target Text</th><th>Text Match</th><th>Source Href</th><th>Target Href</th></tr></thead><tbody><tr><td>/en</td><td>Cookies Settings</td><td></td><td>No</td><td>https://www.teamviewer.com/en/#</td><td>https://www.teamviewer.com/en/</td></tr><tr><td>/en/enterprise</td><td>Enterprise</td><td>Enterprise</td><td>Yes</td><td>https://www.teamviewer.com/en/enterprise/</td><td>https://www.teamviewer.com/en/enterprise/</td></tr><tr><td>/en/global/company/careers</td><td>Careers</td><td>Careers</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/careers/</td><td>https://www.teamviewer.com/en/global/company/careers/</td></tr><tr><td>/en/global/company/contact-sales</td><td>Contact Sales</td><td>Contact Sales</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/contact-sales/</td><td>https://www.teamviewer.com/en/global/company/contact-sales/</td></tr><tr><td>/en/global/company/corporate-governance</td><td>Corporate Governance</td><td>Corporate Governance</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/corporate-governance/</td><td>https://www.teamviewer.com/en/global/company/corporate-governance/</td></tr><tr><td>/en/global/company/investors</td><td>Investors</td><td>Investors</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/investors/</td><td>https://www.teamviewer.com/en/global/company/investors/</td></tr><tr><td>/en/global/company/press</td><td>Newsroom</td><td>Newsroom</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/press/</td><td>https://www.teamviewer.com/en/global/company/press/</td></tr><tr><td>/en/global/company/research-projects</td><td>Research Projects</td><td>Research Projects</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/research-projects/</td><td>https://www.teamviewer.com/en/global/company/research-projects/</td></tr><tr><td>/en/global/company/sport-partnership</td><td>Sports partnerships</td><td>Sports partnerships</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/sport-partnership/</td><td>https://www.teamviewer.com/en/global/company/sport-partnership/</td></tr><tr><td>/en/global/company/sustainability-and-csr</td><td>Sustainability and CSR</td><td>Sustainability and CSR</td><td>Yes</td><td>https://www.teamviewer.com/en/global/company/sustainability-and-csr/</td><td>https://www.teamviewer.com/en/global/company/sustainability-and-csr/</td></tr><tr><td>/en/global/support/community</td><td>Community</td><td>Community</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/community/</td><td>https://www.teamviewer.com/en/global/support/community/</td></tr><tr><td>/en/global/support/custom-modules</td><td>Custom modules</td><td>Custom modules</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/custom-modules/</td><td>https://www.teamviewer.com/en/global/support/custom-modules/</td></tr><tr><td>/en/global/support/customer-support</td><td>Contact support</td><td>Contact support</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/customer-support/</td><td>https://www.teamviewer.com/en/global/support/customer-support/</td></tr><tr><td>/en/global/support/documents</td><td>Guides and manuals</td><td>Guides and manuals</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/documents/</td><td>https://www.teamviewer.com/en/global/support/documents/</td></tr><tr><td>/en/global/support/for-developers</td><td>For developers</td><td>For developers</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/for-developers/</td><td>https://www.teamviewer.com/en/global/support/for-developers/</td></tr><tr><td>/en/global/support/knowledge-base</td><td>Knowledge Base</td><td>Knowledge Base</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/knowledge-base/</td><td>https://www.teamviewer.com/en/global/support/knowledge-base/</td></tr><tr><td>/en/global/support/system-status</td><td>System status</td><td>System status</td><td>Yes</td><td>https://www.teamviewer.com/en/global/support/system-status/</td><td>https://www.teamviewer.com/en/global/support/system-status/</td></tr><tr><td>/en/legal/contact</td><td>Contact</td><td>Contact</td><td>Yes</td><td>https://www.teamviewer.com/en/legal/contact/</td><td>https://www.teamviewer.com/en/legal/contact/</td></tr><tr><td>/en/legal/eula</td><td>EULA / DPA</td><td>EULA / DPA</td><td>Yes</td><td>https://www.teamviewer.com/en/legal/eula/</td><td>https://www.teamviewer.com/en/legal/eula/</td></tr><tr><td>/en/legal/imprint</td><td>Imprint</td><td>Imprint</td><td>Yes</td><td>https://www.teamviewer.com/en/legal/imprint/</td><td>https://www.teamviewer.com/en/legal/imprint/</td></tr><tr><td>/en/legal/privacy-and-cookies</td><td>Privacy and Cookies</td><td>Privacy and Cookies</td><td>Yes</td><td>https://www.teamviewer.com/en/legal/privacy-and-cookies/</td><td>https://www.teamviewer.com/en/legal/privacy-and-cookies/</td></tr><tr><td>/en/legal/product-descriptions</td><td>Product Descriptions</td><td>Product Descriptions</td><td>Yes</td><td>https://www.teamviewer.com/en/legal/product-descriptions/</td><td>https://www.teamviewer.com/en/legal/product-descriptions/</td></tr><tr><td>/en/newsletter</td><td>Newsletter</td><td>Newsletter</td><td>Yes</td><td>https://www.teamviewer.com/en/newsletter/</td><td>https://www.teamviewer.com/en/newsletter/</td></tr><tr><td>/en/partner/become-a-partner</td><td>Become a partner</td><td>Become a partner</td><td>Yes</td><td>https://www.teamviewer.com/en/partner/become-a-partner/</td><td>https://www.teamviewer.com/en/partner/become-a-partner/</td></tr><tr><td>/en/partner/integrations</td><td>Integration partners</td><td>Integration partners</td><td>Yes</td><td>https://www.teamviewer.com/en/partner/integrations/</td><td>https://www.teamviewer.com/en/partner/integrations/</td></tr><tr><td>/en/partner/partner-locations</td><td>Find a partner</td><td>Find a partner</td><td>Yes</td><td>https://www.teamviewer.com/en/partner/partner-locations/</td><td>https://www.teamviewer.com/en/partner/partner-locations/</td></tr><tr><td>/en/platform/one</td><td>TeamViewer ONE</td><td>TeamViewer ONE</td><td>Yes</td><td>https://www.teamviewer.com/en/platform/one/</td><td>https://www.teamviewer.com/en/platform/one/</td></tr><tr><td>/en/platform/one/consultation</td><td>Talk to our team</td><td>Talk to our team</td><td>Yes</td><td>https://www.teamviewer.com/en/platform/one/consultation/</td><td>https://www.teamviewer.com/en/platform/one/consultation/</td></tr><tr><td>/en/platform/one/features</td><td>Capabilities</td><td>Capabilities</td><td>Yes</td><td>https://www.teamviewer.com/en/platform/one/features/</td><td>https://www.teamviewer.com/en/platform/one/features/</td></tr><tr><td>/en/pricing</td><td>Pricing</td><td>Pricing</td><td>Yes</td><td>https://www.teamviewer.com/en/pricing/</td><td>https://www.teamviewer.com/en/pricing/</td></tr><tr><td>/en/products/dex</td><td>TeamViewer DEX</td><td>TeamViewer DEX</td><td>Yes</td><td>https://www.teamviewer.com/en/products/dex/</td><td>https://www.teamviewer.com/en/products/dex/</td></tr><tr><td>/en/products/frontline</td><td>TeamViewer Frontline</td><td>TeamViewer Frontline</td><td>Yes</td><td>https://www.teamviewer.com/en/products/frontline/</td><td>https://www.teamviewer.com/en/products/frontline/</td></tr><tr><td>/en/products/remote</td><td>TeamViewer Remote</td><td>TeamViewer Remote</td><td>Yes</td><td>https://www.teamviewer.com/en/products/remote/</td><td>https://www.teamviewer.com/en/products/remote/</td></tr><tr><td>/en/products/tensor</td><td>TeamViewer Tensor</td><td>TeamViewer Tensor</td><td>Yes</td><td>https://www.teamviewer.com/en/products/tensor/</td><td>https://www.teamviewer.com/en/products/tensor/</td></tr><tr><td>/en/resources/compare</td><td>Why TeamViewer</td><td>Why TeamViewer</td><td>Yes</td><td>https://www.teamviewer.com/en/resources/compare/</td><td>https://www.teamviewer.com/en/resources/compare/</td></tr><tr><td>/en/resources/events</td><td>Events and webinars</td><td>Events and webinars</td><td>Yes</td><td>https://www.teamviewer.com/en/resources/events/</td><td>https://www.teamviewer.com/en/resources/events/</td></tr><tr><td>/en/resources/news-insights</td><td>Blog</td><td>Blog</td><td>Yes</td><td>https://www.teamviewer.com/en/resources/news-insights/</td><td>https://www.teamviewer.com/en/resources/news-insights/</td></tr><tr><td>/en/resources/success-stories</td><td>Customer stories</td><td>Customer stories</td><td>Yes</td><td>https://www.teamviewer.com/en/resources/success-stories/</td><td>https://www.teamviewer.com/en/resources/success-stories/</td></tr><tr><td>/en/resources/teamviewer-user-focus-program</td><td>TeamViewer User Focus Program</td><td>TeamViewer User Focus Program</td><td>Yes</td><td>https://www.teamviewer.com/en/resources/teamviewer-user-focus-program/</td><td>https://www.teamviewer.com/en/resources/teamviewer-user-focus-program/</td></tr><tr><td>/en/resources/trust-center</td><td>Trust Center</td><td>Trust Center</td><td>Yes</td><td>https://www.teamviewer.com/en/resources/trust-center/</td><td>https://www.teamviewer.com/en/resources/trust-center/</td></tr><tr><td>/en/solutions/industries</td><td>By Industries</td><td>By Industries</td><td>Yes</td><td>https://www.teamviewer.com/en/solutions/industries/</td><td>https://www.teamviewer.com/en/solutions/industries/</td></tr><tr><td>/en/solutions/roles</td><td>By Roles</td><td>By Roles</td><td>Yes</td><td>https://www.teamviewer.com/en/solutions/roles/</td><td>https://www.teamviewer.com/en/solutions/roles/</td></tr><tr><td>/en/solutions/use-cases</td><td>By Use Cases</td><td>By Use Cases</td><td>Yes</td><td>https://www.teamviewer.com/en/solutions/use-cases/</td><td>https://www.teamviewer.com/en/solutions/use-cases/</td></tr><tr><td>/en/special/make-work-work-better</td><td>Make work work better</td><td>Make work work better</td><td>Yes</td><td>https://www.teamviewer.com/en/special/make-work-work-better/</td><td>https://www.teamviewer.com/en/special/make-work-work-better/</td></tr><tr><td>facebook.com/teamviewer</td><td></td><td></td><td>Yes</td><td>https://www.facebook.com/teamviewer/</td><td>https://www.facebook.com/teamviewer/</td></tr><tr><td>instagram.com/teamviewer</td><td></td><td></td><td>Yes</td><td>https://www.instagram.com/teamviewer/</td><td>https://www.instagram.com/teamviewer/</td></tr><tr><td>linkedin.com/company/teamviewer</td><td></td><td></td><td>Yes</td><td>https://www.linkedin.com/company/teamviewer/</td><td>https://www.linkedin.com/company/teamviewer/</td></tr><tr><td>threads.com/@teamviewer</td><td></td><td></td><td>Yes</td><td>https://www.threads.com/@teamviewer</td><td>https://www.threads.com/@teamviewer</td></tr><tr><td>youtube.com/user/teamviewer</td><td></td><td></td><td>Yes</td><td>https://www.youtube.com/user/TeamViewer</td><td>https://www.youtube.com/user/TeamViewer</td></tr></tbody></table></div>
+              </details>
+
+              <details class="block text-block">
+                <summary>Text Labels
+                  <em class="ok">52 matched</em>
+                  <em class="fail">1 missing</em>
+                  <em class="add">1 additional</em>
+                </summary>
+                <div class="text-cols">
+                  <div>
+                    <h3 class="ok">Matched</h3>
+                    <div class="chips"><span class="chip ok">Additional Links</span><span class="chip ok">Become a partner</span><span class="chip ok">Blog</span><span class="chip ok">By Industries</span><span class="chip ok">By Roles</span><span class="chip ok">By Use Cases</span><span class="chip ok">Capabilities</span><span class="chip ok">Careers</span><span class="chip ok">Community</span><span class="chip ok">Company</span><span class="chip ok">Contact</span><span class="chip ok">Contact Sales</span><span class="chip ok">Contact support</span><span class="chip ok">Cookies Settings</span><span class="chip ok">Corporate Governance</span><span class="chip ok">Custom modules</span><span class="chip ok">Customer stories</span><span class="chip ok">EULA / DPA</span><span class="chip ok">Enterprise</span><span class="chip ok">Events and webinars</span><span class="chip ok">Find a partner</span><span class="chip ok">For developers</span><span class="chip ok">Guides and manuals</span><span class="chip ok">Imprint</span><span class="chip ok">Integration partners</span><span class="chip ok">Investors</span><span class="chip ok">Knowledge Base</span><span class="chip ok">Make work work better</span><span class="chip ok">Newsletter</span><span class="chip ok">Newsroom</span><span class="chip ok">ONE Platform</span><span class="chip ok">Partner</span><span class="chip ok">Pricing</span><span class="chip ok">Privacy and Cookies</span><span class="chip ok">Product Descriptions</span><span class="chip ok">Products</span><span class="chip ok">Research Projects</span><span class="chip ok">Resources</span><span class="chip ok">Solutions</span><span class="chip ok">Sports partnerships</span><span class="chip ok">Support</span><span class="chip ok">Sustainability and CSR</span><span class="chip ok">System status</span><span class="chip ok">Talk to our team</span><span class="chip ok">TeamViewer DEX</span><span class="chip ok">TeamViewer Frontline</span><span class="chip ok">TeamViewer ONE</span><span class="chip ok">TeamViewer Remote</span><span class="chip ok">TeamViewer Tensor</span><span class="chip ok">TeamViewer User Focus Program</span><span class="chip ok">Trust Center</span><span class="chip ok">Why TeamViewer</span></div>
+                  </div>
+                  <div>
+                    <h3 class="fail">Missing on Target</h3>
+                    <div class="chips"><span class="chip fail">About TeamViewer</span></div>
+                  </div>
+                  <div>
+                    <h3 class="add">Additional on Target</h3>
+                    <div class="chips"><span class="chip add">Existing Partner Login</span></div>
+                  </div>
+                </div>
+              </details>
+            </section>
+            
+    </div>
+
+    <p class="footnote">
+      <strong>Exact path</strong> = URL path must match including locale slug.
+      <strong>Structural</strong> = locale stripped + known slug aliases
+      (e.g. integrations→integration, ru-cis→ru).
+      <strong>Missing/Additional</strong> are true differences after structural normalization.
+      Full Excel also available at HeaderCheck_Report.xlsx.
+    </p>
+  </div>
+
+<script>
+(() => {
+  const search = document.getElementById('search');
+  const statusFilter = document.getElementById('statusFilter');
+  const summaryRows = [...document.querySelectorAll('#summaryTable tbody tr')];
+  const cards = [...document.querySelectorAll('.locale-card')];
+
+  function applyFilters() {
+    const q = (search.value || '').trim().toLowerCase();
+    const status = statusFilter.value;
+
+    summaryRows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const st = [...row.classList].find(c => ['pass','warn','fail','error'].includes(c)) || '';
+      const statusOk = status === 'all' || st === status;
+      const queryOk = !q || text.includes(q);
+      row.classList.toggle('hidden', !(statusOk && queryOk));
+    });
+
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const badge = card.querySelector('.badge');
+      const st = badge ? [...badge.classList].find(c => ['pass','warn','fail','error'].includes(c)) : '';
+      const statusOk = status === 'all' || st === status;
+      const queryOk = !q || text.includes(q);
+      card.classList.toggle('hidden', !(statusOk && queryOk));
+    });
+  }
+
+  search.addEventListener('input', applyFilters);
+  statusFilter.addEventListener('change', applyFilters);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Baseline for nightly page1 vs page2 header/footer checks
+Copied from: C:\Users\rpatel\Desktop\Teamviewer\daily\2026-10-09_175543
+Run: 2026-10-09 17:55, 17 locales (DailyCheck.xlsx)
+Do not edit these files - every nightly run is compared against them.
