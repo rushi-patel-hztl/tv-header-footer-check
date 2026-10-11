@@ -44,12 +44,23 @@ def overall_by_locale(xlsx: Path) -> tuple[dict, dict]:
     return pct, status
 
 
-def summary_table(run: Path, name: str, title: str) -> str:
-    cur, status = overall_by_locale(run / name)
+def changed_locales(run: Path, component: str) -> set:
+    """Locales that differ from the baseline (any %, link or text change, error, added/removed)."""
+    diff = run / "DifferenceReport.xlsx"
+    if not diff.exists():
+        return set()
+    _, rows = overview_rows(diff)
+    return {r[1] for r in rows if r[0] == component}
+
+
+def summary_table(run: Path, name: str, title: str, component: str) -> str:
+    cur, _ = overall_by_locale(run / name)
+    changed = changed_locales(run, component)
+    status = {loc: ("FAIL" if loc in changed else "PASS") for loc in cur}
     base_file = ROOT / "baselines" / "cloud_baseline" / name
     base = overall_by_locale(base_file)[0] if base_file.exists() else {}
     cell = "border:1px solid #ccc;padding:4px 8px"
-    colors = {"PASS": GREEN, "WARN": "#9a6700", "FAIL": RED}
+    colors = {"PASS": GREEN, "FAIL": RED}
     tr = ""
     for loc, v in cur.items():
         b = base.get(loc)
@@ -65,13 +76,13 @@ def summary_table(run: Path, name: str, title: str) -> str:
             f"<td style='{cell};text-align:right;color:{dc}'>{delta}</td>"
             f"<td style='{cell};color:{colors.get(status[loc], '#000')}'>{html.escape(str(status[loc]))}</td></tr>"
         )
-    th = "".join(f"<th style='{cell};background:#f0f0f0'>{h}</th>" for h in ("Locale", "Baseline %", "Last run %", "Delta", "Status"))
+    th = "".join(f"<th style='{cell};background:#f0f0f0'>{h}</th>" for h in ("Locale", "Baseline %", "Last run %", "Delta", "vs baseline"))
     return f"<h3 style='margin:16px 0 6px'>{title}</h3><table style='border-collapse:collapse;font-size:13px'><tr>{th}</tr>{tr}</table>"
 
 
 def tables(run: Path) -> str:
-    return summary_table(run, "HeaderCheck_Report.xlsx", "Header - overall match % by locale") + summary_table(
-        run, "FooterCheck_Report.xlsx", "Footer - overall match % by locale"
+    return summary_table(run, "HeaderCheck_Report.xlsx", "Header - overall match % by locale", "Header") + summary_table(
+        run, "FooterCheck_Report.xlsx", "Footer - overall match % by locale", "Footer"
     )
 
 
