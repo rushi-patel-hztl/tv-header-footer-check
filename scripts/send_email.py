@@ -32,6 +32,28 @@ def overview_rows(xlsx: Path) -> tuple[list, list]:
     return rows[0], rows[1:]
 
 
+def summary_table(xlsx: Path, title: str) -> str:
+    ws = load_workbook(xlsx, read_only=True)["Summary"]
+    rows = [list(r) for r in ws.iter_rows(values_only=True)]
+    col = {h: i for i, h in enumerate(rows[0])}
+    cell = "border:1px solid #ccc;padding:4px 8px"
+    colors = {"PASS": GREEN, "WARN": "#9a6700", "FAIL": RED}
+    tr = "".join(
+        f"<tr><td style='{cell}'>{html.escape(str(r[col['Locale']]))}</td>"
+        f"<td style='{cell};text-align:right'>{r[col['Overall Match %']]}%</td>"
+        f"<td style='{cell};color:{colors.get(r[col['Status']], '#000')}'>{html.escape(str(r[col['Status']]))}</td></tr>"
+        for r in rows[1:] if r[col["Locale"]]
+    )
+    th = "".join(f"<th style='{cell};background:#f0f0f0'>{h}</th>" for h in ("Locale", "Overall %", "Status"))
+    return f"<h3 style='margin:16px 0 6px'>{title}</h3><table style='border-collapse:collapse;font-size:13px'><tr>{th}</tr>{tr}</table>"
+
+
+def tables(run: Path) -> str:
+    return summary_table(run / "HeaderCheck_Report.xlsx", "Header - overall match % by locale") + summary_table(
+        run / "FooterCheck_Report.xlsx", "Footer - overall match % by locale"
+    )
+
+
 def build(run: Path) -> tuple[str, str, dict | None]:
     name = run.name
     finished = "=== Cloud run finished" in (run / "run.log").read_text(errors="ignore")
@@ -42,7 +64,7 @@ def build(run: Path) -> tuple[str, str, dict | None]:
         return f"[RED] TeamViewer header/footer check FAILED - {name}", wrap(line, color, name, body), None
     if not diff.exists():
         line, color = "No change from baseline", GREEN
-        body = "<p>All 17 locales are identical to the cloud baseline for header and footer.</p>"
+        body = "<p>All 17 locales are identical to the cloud baseline for header and footer.</p>" + tables(run)
         return f"[GREEN] TeamViewer header/footer: no change from baseline - {name}", wrap(line, color, name, body), None
     headers, rows = overview_rows(diff)
     th = "".join(f"<th style='border:1px solid #ccc;padding:4px 8px;background:#f0f0f0'>{html.escape(str(h))}</th>" for h in headers)
@@ -50,7 +72,7 @@ def build(run: Path) -> tuple[str, str, dict | None]:
         "<tr>" + "".join(f"<td style='border:1px solid #ccc;padding:4px 8px'>{html.escape('' if c is None else str(c))}</td>" for c in r) + "</tr>"
         for r in rows
     )
-    body = f"<p>{len(rows)} changed component/locale rows.</p><table style='border-collapse:collapse;font-size:13px'><tr>{th}</tr>{tr}</table><p>Full details: attached DifferenceReport.xlsx.</p>"
+    body = f"<p>{len(rows)} changed component/locale rows.</p><table style='border-collapse:collapse;font-size:13px'><tr>{th}</tr>{tr}</table><p>Full details: attached DifferenceReport.xlsx.</p>" + tables(run)
     att = {"filename": "DifferenceReport.xlsx", "content": base64.b64encode(diff.read_bytes()).decode()}
     return f"[RED] TeamViewer header/footer changed from baseline - {name}", wrap("Header/footer has changed from baseline", RED, name, body), att
 
@@ -70,7 +92,7 @@ def main():
     run = Path(a.run_dir) if a.run_dir else latest_run()
     subject, html_body, att = build(run)
     if a.dry_run:
-        print(subject, "\n", html_body[:1500], "\nattachment:", bool(att))
+        print(subject, "\n", html_body, "\nattachment:", bool(att))
         return
     key, to = os.environ.get("RESEND_API_KEY"), os.environ.get("MAIL_TO")
     if not key or not to:
