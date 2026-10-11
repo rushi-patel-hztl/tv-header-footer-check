@@ -32,25 +32,46 @@ def overview_rows(xlsx: Path) -> tuple[list, list]:
     return rows[0], rows[1:]
 
 
-def summary_table(xlsx: Path, title: str) -> str:
+def overall_by_locale(xlsx: Path) -> tuple[dict, dict]:
     ws = load_workbook(xlsx, read_only=True)["Summary"]
     rows = [list(r) for r in ws.iter_rows(values_only=True)]
     col = {h: i for i, h in enumerate(rows[0])}
+    pct, status = {}, {}
+    for r in rows[1:]:
+        if r[col["Locale"]]:
+            pct[r[col["Locale"]]] = r[col["Overall Match %"]]
+            status[r[col["Locale"]]] = r[col["Status"]]
+    return pct, status
+
+
+def summary_table(run: Path, name: str, title: str) -> str:
+    cur, status = overall_by_locale(run / name)
+    base_file = ROOT / "baselines" / "cloud_baseline" / name
+    base = overall_by_locale(base_file)[0] if base_file.exists() else {}
     cell = "border:1px solid #ccc;padding:4px 8px"
     colors = {"PASS": GREEN, "WARN": "#9a6700", "FAIL": RED}
-    tr = "".join(
-        f"<tr><td style='{cell}'>{html.escape(str(r[col['Locale']]))}</td>"
-        f"<td style='{cell};text-align:right'>{r[col['Overall Match %']]}%</td>"
-        f"<td style='{cell};color:{colors.get(r[col['Status']], '#000')}'>{html.escape(str(r[col['Status']]))}</td></tr>"
-        for r in rows[1:] if r[col["Locale"]]
-    )
-    th = "".join(f"<th style='{cell};background:#f0f0f0'>{h}</th>" for h in ("Locale", "Overall %", "Status"))
+    tr = ""
+    for loc, v in cur.items():
+        b = base.get(loc)
+        if b is None or v is None:
+            delta, dc = "n/a", "#000"
+        else:
+            d = round(v - b, 2)
+            delta, dc = (f"{d:+.2f}" if d else "0.00"), (GREEN if d > 0 else RED if d < 0 else "#000")
+        tr += (
+            f"<tr><td style='{cell}'>{html.escape(str(loc))}</td>"
+            f"<td style='{cell};text-align:right'>{'' if b is None else f'{b}%'}</td>"
+            f"<td style='{cell};text-align:right'>{v}%</td>"
+            f"<td style='{cell};text-align:right;color:{dc}'>{delta}</td>"
+            f"<td style='{cell};color:{colors.get(status[loc], '#000')}'>{html.escape(str(status[loc]))}</td></tr>"
+        )
+    th = "".join(f"<th style='{cell};background:#f0f0f0'>{h}</th>" for h in ("Locale", "Baseline %", "Last run %", "Delta", "Status"))
     return f"<h3 style='margin:16px 0 6px'>{title}</h3><table style='border-collapse:collapse;font-size:13px'><tr>{th}</tr>{tr}</table>"
 
 
 def tables(run: Path) -> str:
-    return summary_table(run / "HeaderCheck_Report.xlsx", "Header - overall match % by locale") + summary_table(
-        run / "FooterCheck_Report.xlsx", "Footer - overall match % by locale"
+    return summary_table(run, "HeaderCheck_Report.xlsx", "Header - overall match % by locale") + summary_table(
+        run, "FooterCheck_Report.xlsx", "Footer - overall match % by locale"
     )
 
 
