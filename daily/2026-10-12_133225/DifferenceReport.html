@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Header Footer Difference Report</title>
+<style>
+:root{--bg:#fff;--fg:#1d2433;--muted:#667085;--line:#e4e7ec;--card:#f8f9fb;--up:#127a3f;--upbg:#dcf5e5;--down:#b42318;--downbg:#fde4e2;--same:#8a5a00;--samebg:#fff2cc}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--fg:#e6e8eb;--muted:#9aa3ad;--line:#2b3038;--card:#1b1f26;--up:#5fd08c;--upbg:#173527;--down:#ff8b80;--downbg:#3d1d1b;--same:#f0c060;--samebg:#3a301a}}
+body{margin:0;padding:24px 16px;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,Segoe UI,sans-serif}
+main{max-width:1200px;margin:0 auto} h1{margin:0 0 4px} .muted{color:var(--muted)}
+.cards{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0} .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;min-width:140px}
+.card b{display:block;font-size:24px} table{border-collapse:collapse;width:100%;margin:8px 0 16px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top} th{background:var(--card)}
+.tag{padding:2px 8px;border-radius:10px;font-size:12px;font-weight:600} .tag.up{background:var(--upbg);color:var(--up)}
+.tag.down{background:var(--downbg);color:var(--down)} .tag.same{background:var(--samebg);color:var(--same)}
+span.up{color:var(--up)} span.down{color:var(--down)} .path{font-family:Consolas,monospace;font-size:12px;word-break:break-all}
+section{border-top:1px solid var(--line);padding-top:8px} .chg{white-space:nowrap} a{color:inherit}
+</style></head><body><main>
+<h1>Header / Footer difference report</h1>
+<p class="muted">Run /home/user/tv-header-footer-check/daily/2026-10-12_133225 compared with baseline /home/user/tv-header-footer-check/baselines/cloud_baseline.<br>
+Home page = AEM (source) · Target page = Sitecore (press release page).</p>
+<div class="cards"><div class="card"><b>1</b>locale/component rows changed</div>
+<div class="card"><b class="up" style="color:var(--up)">0</b>improved</div>
+<div class="card"><b style="color:var(--down)">0</b>regressed / error</div>
+<div class="card"><b>1</b>changed, overall % same</div></div>
+<h2>Overview</h2>
+<table><tr><th>Component</th><th>Locale</th><th>Direction</th><th>Status</th><th>Overall %</th>
+<th>Link match %</th><th>Text match %</th><th>Home page changes</th><th>Target page changes</th></tr>
+<tr><td>Footer</td><td><a href="#Footer-en">en</a></td><td><span class="tag same">Changed (overall % same)</span></td><td>WARN → WARN</td><td>95.26 → 95.26 <span class="">(0)</span></td><td>94.23 → 94.23 <span class="">(0)</span></td><td>96.3 → 96.3 <span class="">(0)</span></td><td>0</td><td>1</td></tr></table>
+<h2>Details</h2><section id="Footer-en"><h3>Footer · en <span class="tag same">Changed (overall % same)</span></h3><h4>Target page (Sitecore)</h4><table><tr><th>Change</th><th>Link / Text</th><th>Path</th><th>Baseline</th><th>Current</th></tr><tr><td class="chg">Link text changed</td><td>Cookies Settings</td><td class="path">/en/global/company/press/2026/teamviewer-expands-ai-powered-it-troubleshooting-from-guidance-to-governed-action</td><td class="path">Cookie Settings</td><td class="path">Cookies Settings</td></tr></table></section>
+</main></body></html>
