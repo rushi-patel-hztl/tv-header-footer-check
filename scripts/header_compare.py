@@ -222,6 +222,11 @@ EXTRACT_HEADER_JS = """
     return { error: 'Header element not found', links: [], texts: [], rawText: '' };
   }
 
+  // Context nav (secondary nav bar, Sitecore only) is not part of the comparison:
+  // the home page (AEM) has none. Remove it and all its children before extracting.
+  header.querySelectorAll('[data-name="header-contextnav"], [data-track-nav="contextnav"]')
+    .forEach((n) => n.remove());
+
   // Direct text nodes only — avoids parent aggregation differences:
   // Source: <span title> + <span desc>  (innerText has spaces)
   // Target: <p title><p desc>           (anchor innerText often concatenates with NO space)
