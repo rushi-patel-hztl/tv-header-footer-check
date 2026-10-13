@@ -161,6 +161,17 @@ def main() -> int:
         f"\n=== Cloud run finished {datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S} UTC "
         f"(failures={failures}) ==="
     )
+    # Email the result of every run (best effort: a mail problem never fails the run)
+    try:
+        import subprocess
+        r = subprocess.run(
+            [sys.executable, str(Path(__file__).with_name("send_email.py")), "--run-dir", str(run_dir)],
+            capture_output=True, text=True, timeout=120,
+        )
+        print("EMAIL:", (r.stdout or r.stderr).strip()[-300:])
+    except Exception as e:
+        print(f"EMAIL FAILED: {e}")
+
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
     log.close()
