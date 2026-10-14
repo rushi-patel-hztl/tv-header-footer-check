@@ -1,4 +1,8 @@
 Cloud baseline for the daily header/footer check
-Copied from: daily/2026-10-09_133040
-Set at: 2026-10-09 13:46 UTC
+Copied from: daily/2026-10-13_183310
+Set at: 2026-10-14 (reset)
+Reason: header_compare.py now excludes the Sitecore context nav (commit b9efbcd, 2026-10-13).
+        The previous baseline (daily/2026-10-09_133040, set 2026-10-09) was captured before that
+        change, so every run showed the context-nav links as "removed" vs baseline.
+        The previous baseline is kept in git history (commit 1aa69a2).
 Do not edit these files - every cloud run is compared against them.
