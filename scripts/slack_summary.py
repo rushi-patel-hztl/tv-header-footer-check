@@ -235,6 +235,14 @@ def build(run: Path, branch: str) -> str:
             break
         text += "\n" + s + "\n"
     text += f"\nStatus vs AEM now: {status_line()}\n"
+    upd = run / "BaselineUpdate.txt"
+    if upd.exists():
+        for line in upd.read_text(encoding="utf-8").splitlines():
+            if line.startswith("Promoted to baseline"):
+                text += (":arrows_counterclockwise: Baseline updated for improvements only: "
+                         + line.split(": ", 1)[1] + ". These won't be reported again; regressions stay reported.\n")
+            elif line.startswith("Improved but NOT promoted"):
+                text += ":pause_button: " + line + "\n"
     text += f"Details: [DifferenceReport.html]({blob_url}/DifferenceReport.html) · {links}"
     return text
 
