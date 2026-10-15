@@ -13,7 +13,6 @@ Writes daily/<YYYY-MM-DD_HHMMSS>/ with:
   FooterCheck_Report.xlsx / .html
   DifferenceReport.xlsx / .html   (only when something changed vs the cloud baseline)
   run.log
-  BaselineUpdate.txt              (which improved component/locales were promoted into the baseline)
   slack_message.md                (summary posted to Slack by the cloud routine)
 
 Usage (from the repo root):
@@ -41,7 +40,6 @@ import compare_to_baseline  # noqa: E402
 import footer_compare as fc  # noqa: E402
 import header_compare as hc  # noqa: E402
 import pacing  # noqa: E402
-import promote_improvements  # noqa: E402
 
 DEFAULT_INPUT = REPO_ROOT / "input" / "DailyCheck.xlsx"
 DEFAULT_OUT_ROOT = REPO_ROOT / "daily"
@@ -174,15 +172,6 @@ def main() -> int:
         print("EMAIL:", (r.stdout or r.stderr).strip()[-300:])
     except Exception as e:
         print(f"EMAIL FAILED: {e}")
-    # Move the baseline forward for improvements only (after the email, which shows deltas
-    # against the baseline this run was compared with). Regressions stay reported until fixed.
-    if not args.set_baseline and not failures and (CLOUD_BASELINE_DIR / "HeaderCheck_Report.xlsx").exists():
-        print("\n##### UPDATE BASELINE (IMPROVEMENTS ONLY) #####")
-        try:
-            promote_improvements.run(run_dir, CLOUD_BASELINE_DIR)
-        except Exception:
-            print("BASELINE UPDATE FAILED (baseline left as it was):")
-            traceback.print_exc()
     # Slack summary for the routine to post (best effort, like the email)
     try:
         r = subprocess.run(
