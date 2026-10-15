@@ -20,7 +20,6 @@ reports any change against a fixed baseline.
 | `scripts/run_daily_compare.py` | Daily runner: header check, footer check, then compare to baseline |
 | `scripts/compare_to_baseline.py` | Diffs a run against the baseline; writes `DifferenceReport.*` only when something changed |
 | `scripts/send_email.py` | Emails the result of each cloud run (Resend) |
-| `scripts/promote_improvements.py` | Moves the cloud baseline forward for improved component/locales only |
 | `scripts/slack_summary.py` | Writes `slack_message.md`: a short summary of the run for Slack |
 | `input/DailyCheck.xlsx` | Source / Target URL pairs |
 | `baselines/daily_baseline/` | Baseline reports (run of 2026-10-09 17:55, 17 locales) |
@@ -32,14 +31,6 @@ reports any change against a fixed baseline.
 - `DifferenceReport.*` — **present only if something changed vs the baseline** (any match % change, status change,
   or a link / text added, removed or renamed on either page). No file = no change.
 - `run.log` — full run output.
-- `BaselineUpdate.txt` — which component/locales were promoted into the cloud baseline after this run.
-
-### How the cloud baseline moves
-
-After each successful cloud run, `scripts/promote_improvements.py` copies **only improved** component/locales from
-the run into `baselines/cloud_baseline/`: overall match % went up, no change made the comparison worse, no page
-error and no status drop. Everything else stays at the old baseline, so a regression is reported every day until it
-is fixed (or the baseline is reset deliberately). Each promotion is logged in `BASELINE_SOURCE.txt`.
 - `slack_message.md` — the summary posted to Slack `#teamviewer-header-footer-compare` by the cloud routine.
   It leads with run problems (crash, page errors), then groups identical changes across locales, worse first.
 
