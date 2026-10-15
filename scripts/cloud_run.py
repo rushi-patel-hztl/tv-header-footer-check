@@ -13,6 +13,7 @@ Writes daily/<YYYY-MM-DD_HHMMSS>/ with:
   FooterCheck_Report.xlsx / .html
   DifferenceReport.xlsx / .html   (only when something changed vs the cloud baseline)
   run.log
+  slack_message.md                (summary posted to Slack by the cloud routine)
 
 Usage (from the repo root):
   python -u scripts/cloud_run.py                  # normal daily run
@@ -171,6 +172,15 @@ def main() -> int:
         print("EMAIL:", (r.stdout or r.stderr).strip()[-300:])
     except Exception as e:
         print(f"EMAIL FAILED: {e}")
+    # Slack summary for the routine to post (best effort, like the email)
+    try:
+        r = subprocess.run(
+            [sys.executable, str(Path(__file__).with_name("slack_summary.py")), "--run-dir", str(run_dir)],
+            capture_output=True, text=True, timeout=120,
+        )
+        print("SLACK SUMMARY:", "written to slack_message.md" if r.returncode == 0 else r.stderr.strip()[-300:])
+    except Exception as e:
+        print(f"SLACK SUMMARY FAILED: {e}")
 
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__

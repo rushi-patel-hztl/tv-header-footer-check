@@ -19,6 +19,8 @@ reports any change against a fixed baseline.
 | `scripts/generate_html_report.py` | HTML version of an Excel report |
 | `scripts/run_daily_compare.py` | Daily runner: header check, footer check, then compare to baseline |
 | `scripts/compare_to_baseline.py` | Diffs a run against the baseline; writes `DifferenceReport.*` only when something changed |
+| `scripts/send_email.py` | Emails the result of each cloud run (Resend) |
+| `scripts/slack_summary.py` | Writes `slack_message.md`: a short summary of the run for Slack |
 | `input/DailyCheck.xlsx` | Source / Target URL pairs |
 | `baselines/daily_baseline/` | Baseline reports (run of 2026-10-09 17:55, 17 locales) |
 | `daily/<YYYY-MM-DD_HHMMSS>/` | One folder per run |
@@ -29,6 +31,8 @@ reports any change against a fixed baseline.
 - `DifferenceReport.*` — **present only if something changed vs the baseline** (any match % change, status change,
   or a link / text added, removed or renamed on either page). No file = no change.
 - `run.log` — full run output.
+- `slack_message.md` — the summary posted to Slack `#teamviewer-header-footer-compare` by the cloud routine.
+  It leads with run problems (crash, page errors), then groups identical changes across locales, worse first.
 
 `daily/2026-10-09` is an earlier EN-only run; `daily/2026-10-09_175543` is the 17-locale run used as the baseline.
 
