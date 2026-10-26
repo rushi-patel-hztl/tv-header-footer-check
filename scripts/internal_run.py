@@ -1,12 +1,9 @@
 """
 One-off runner: header + footer of www.teamviewer.com vs internal.teamviewer.com, same locale home page.
 
-internal.teamviewer.com is behind Cloudflare Access, so this runs on a machine that can log in to it
-(not the cloud routine). Two ways through Access:
-  - Service token: set CF_ACCESS_CLIENT_ID and CF_ACCESS_CLIENT_SECRET; sent as headers, no login.
-  - Interactive (default): a browser opens on internal.teamviewer.com; log in with your TeamViewer
-    account. The session cookie is saved to .cf_access_state.json (git-ignored) and reused by
-    the header and footer runs.
+internal.teamviewer.com is behind Cloudflare Access, so this runs on a machine whose network Access
+already lets through (not the cloud routine); no login step. Optionally set CF_ACCESS_CLIENT_ID and
+CF_ACCESS_CLIENT_SECRET to send an Access service token from anywhere else.
 
 Every page that still lands on the Cloudflare Access screen is reported as a page error, never as
 a 0% match.
@@ -44,9 +41,7 @@ import pacing  # noqa: E402
 
 DEFAULT_INPUT = REPO_ROOT / "input" / "InternalCheck.xlsx"
 DEFAULT_OUT_ROOT = REPO_ROOT / "internal_compare"
-STATE_FILE = REPO_ROOT / ".cf_access_state.json"
 INTERNAL_HOST = "internal.teamviewer.com"
-LOGIN_TIMEOUT_MS = 5 * 60 * 1000
 
 
 class _Tee:
@@ -81,28 +76,8 @@ def on_access_screen(page) -> bool:
     return host.endswith("cloudflareaccess.com") or "Cloudflare Access" in title
 
 
-def login(first_url: str) -> None:
-    """Open a visible browser, let the user log in through Cloudflare Access, save the cookies."""
-    print(f"Opening {first_url} - log in through Cloudflare Access in the browser window "
-          f"(waiting up to {LOGIN_TIMEOUT_MS // 60000} min)...")
-    with _real_sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        context = browser.new_context(storage_state=str(STATE_FILE) if STATE_FILE.exists() else None)
-        page = context.new_page()
-        page.goto(first_url, wait_until="domcontentloaded", timeout=90000)
-        page.wait_for_function(
-            f"""() => location.host === '{INTERNAL_HOST}'
-                   && !document.title.includes('Cloudflare Access')
-                   && !!document.querySelector('header, footer')""",
-            timeout=LOGIN_TIMEOUT_MS,
-        )
-        context.storage_state(path=str(STATE_FILE))
-        browser.close()
-    print(f"Logged in; session saved to {STATE_FILE.name}")
-
-
 class _AuthedPlaywright:
-    """sync_playwright() stand-in whose browser contexts carry the Access cookie / service token."""
+    """sync_playwright() stand-in whose browser contexts carry the Access service token, if set."""
 
     def __init__(self):
         self._cm = _real_sync_playwright()
@@ -119,8 +94,6 @@ class _AuthedPlaywright:
                 headers = access_headers()
                 if headers:
                     kw["extra_http_headers"] = {**kw.get("extra_http_headers", {}), **headers}
-                elif STATE_FILE.exists():
-                    kw["storage_state"] = str(STATE_FILE)
                 return new_context(*a, **kw)
 
             browser.new_context = authed_context
@@ -149,7 +122,7 @@ def _guard_access(extract):
     def wrapper(page, url):
         data = extract(page, url)
         if on_access_screen(page):
-            data["error"] = "Blocked by Cloudflare Access (not logged in) - page not checked"
+            data["error"] = "Blocked by Cloudflare Access - page not checked"
             data["links"], data["texts"] = [], []
         return data
 
@@ -161,10 +134,6 @@ def main() -> int:
     ap.add_argument("--input", default=str(DEFAULT_INPUT), help="Source/Target URL pairs (xlsx)")
     ap.add_argument("--out-root", default=str(DEFAULT_OUT_ROOT), help="Folder for run folders")
     args = ap.parse_args()
-
-    pairs = load_pairs(args.input)
-    if not access_headers():
-        login(pairs[0][1])
 
     run_dir = Path(args.out_root) / datetime.now().strftime("%Y-%m-%d_%H%M%S")
     run_dir.mkdir(parents=True, exist_ok=False)
