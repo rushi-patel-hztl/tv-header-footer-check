@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 ~$*
 .venv/
+.cf_access_state.json
